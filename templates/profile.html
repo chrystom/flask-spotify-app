@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block main %}
+<img src="{{data['images'][0]['url']}}">
+<h1>{{data['display_name']}}</h1>
+{% endblock %}

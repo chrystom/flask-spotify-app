@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Current Song{% endblock %}
+
+{% block main %}
+<div class="cs-container">
+    {% if data == None %}
+    <img src="../static/no_song.png" width=300px height=300px style="background-color: #46494d;">
+    <br>
+    <br>
+    <h1>No song detected.</h1>
+    
+    {% else %}
+    <img src="{{data['item']['album']['images'][1]['url']}}" width=300px height=300px>
+    <br>
+    <br>
+    <!-- who said marquee tags were dead -->
+    <marquee scrollamount=15><h1>{{data['item']['name']}} - {{artist_str}}</h1></marquee>
+    {% endif %}
+
+</div>
+{% endblock %}
