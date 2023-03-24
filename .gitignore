@@ -1,0 +1,11 @@
+.breakpoints
+poetry.lock
+pyproject.toml
+__pycache__/
+.upm
+venv/
+replit.nix
+.replit
+.cache
+.config
+flask_session/

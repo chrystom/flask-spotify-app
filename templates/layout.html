@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <!-- Viewport & Metadata -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        
+        <!-- Bootstrap: http://getbootstrap.com/docs/5.1/ -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+        <!-- https://dev.to/derlin/get-favicons-from-any-website-using-a-hidden-google-api-3p1e -->
+        <link rel="icon" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://open.spotify.com&size=64">
+        
+        <link href="/static/css/style.css" rel="stylesheet">
+        
+        <title>Spotify App: {% block title %}{% endblock %}</title>
+    </head>
+    
+    <body>
+        
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                
+                <a class="navbar-brand" href="/">
+                    <img src="/static/images/spotify_icon.png" alt="Spotify icon" width="30px" height="30px" class="d-inline-block align-text-top">
+                    Spotify App
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                    {% if not session['access_token'] %}
+                        <li>
+                            <a class="nav-link" href="/login">
+                                <button type="button" class="btn btn-outline-success">Login</button>
+                            </a>
+                        </li>
+                    {% endif %}
+                    </ul>
+
+                    <div class="dropdown">
+                        <button class="btn btn-outline-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Endpoints
+                        </button>
+                        
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/current_song">Current Song</a></li>
+                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/">Something else here</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </nav>
+
+
+        <main>  
+            {% block main %}{% endblock %}
+        </main>
+
+        {% block api_req %}{% endblock %}
+    </body>
+</html>

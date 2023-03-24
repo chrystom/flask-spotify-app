@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block title %}Current Song{% endblock %}
+
+{% block main %}
+<div class="cs-container">
+    <!-- by default, on load it has the no song image -->
+    <img id="songImg" src="/static/images/no_song.png" width=300px height=300px>
+    <br>
+    <br>
+    <marquee scrollamount=15><h1 id="songTitle"></h1></marquee>
+</div>
+{% endblock %}
+
+{% block api_req %}
+<script>
+    // references
+    let songImg = document.querySelector("#songImg");
+    let songTitle = document.querySelector("#songTitle");
+    
+    async function update_data() {
+        
+        // Storing response
+        const response = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer {{session['access_token']}}",
+            }
+        })
+        
+        // Storing data in form of JSON
+        var data = await response.json();
+
+        console.log(data)
+        
+        // make sure we have song
+        if (data['item'] === null) {
+            songImg.src = "/static/images/no_song.png"
+            songTitle.innerText = "No song detected."
+        } else {
+            // get each artist and make a string
+            let artist_str = "";
+            for (let i = 0; i < data['item']['artists'].length; i++) {
+                artist_str += `${data['item']['artists'][i]['name']}, `;
+            }
+    
+            // remove trailing ", "
+            artist_str = artist_str.substring(0, artist_str.length - 2);
+
+
+            // update dom
+            songImg.src = data['item']['album']['images'][1]['url'];
+            songTitle.innerText = `${data['item']['name']} - ${artist_str}`
+        }
+        
+
+        
+        // console.log(data['item']['album']['images'][1]['url']);
+        // console.log(`${data['item']['name']} - ${artist_str}`);
+    }
+
+    // first time without delay
+    update_data();
+
+    // continuously update data
+    setInterval(update_data, 1000);
+
+    
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+body {
+    font-family: 'Courier New', monospace;
+/*     background: hsla(0, 0%, 0%, 1); */
+/*     background: -webkit-linear-gradient(180deg, hsla(0, 0%, 0%, 1) 20%, hsla(112, 73%, 48%, 1) 100%); */
+}
+
+.about-container {
+    margin-top: 25px;
+    margin-left: 25px;
+}
+
+.cs-container {
+    margin-top: 5%;
+    display: grid;
+}
+
+div.cs-container > img {
+    border-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+div.cs-container > h1 {
+    align-self: center;
+    justify-self: center;
+}
+
+.h-line {
+    border-top: 6px solid #2e2929;
+    width: 80%;
+}
