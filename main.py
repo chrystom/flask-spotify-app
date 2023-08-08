@@ -1,7 +1,9 @@
-import os, requests
+import os
+import requests
+from dotenv import load_dotenv
+from urllib.parse import urlencode
 from flask import Flask, request, redirect, render_template, session
 from flask_session import Session
-from urllib.parse import quote
 
 # Authentication Steps, paramaters, and responses are defined at https://developer.spotify.com/web-api/authorization-guide/
 # Visit this url to see all the steps, parameters, and expected response.
@@ -15,6 +17,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
 #  Client Keys
+load_dotenv()
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
@@ -24,22 +27,20 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = f"{SPOTIFY_API_BASE_URL}/{API_VERSION}"
 
 # Server-side Parameters
-CLIENT_SIDE_URL = "https://test-spotify-app.chrystom.repl.co"
-PORT = 8080
-REDIRECT_URI = "{}/callback".format(CLIENT_SIDE_URL)
+CLIENT_SIDE_URL = "http://localhost"
+PORT = 5000
+REDIRECT_URI = f"{CLIENT_SIDE_URL}:{PORT}/callback"
 SCOPE = "user-read-currently-playing"
 STATE = ""
-SHOW_DIALOG_bool = True
-SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 
 # dict of query string for login route
 auth_query_parameters = {
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
     "scope": SCOPE,
-    # "state": STATE,
-    "show_dialog": SHOW_DIALOG_str,
+    "show_dialog": "true",
     "client_id": CLIENT_ID
+    # "state": STATE,
 }
 
 
@@ -51,9 +52,7 @@ def index():
 @app.route("/login")
 def login():
     # Auth Step 1: Authorization
-    url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
-    auth_url = f"https://accounts.spotify.com/authorize/?{url_args}"
-    return redirect(auth_url)
+    return redirect(f"https://accounts.spotify.com/authorize?{urlencode(auth_query_parameters)}")
 
 
 @app.route("/callback")
@@ -76,7 +75,7 @@ def callback():
 
     # Auth Step 5: Tokens are Returned to Application
     response_data = response.json()
-    
+
     try:
         session['access_token'] = response_data["access_token"]
         session['refresh_token'] = response_data["refresh_token"]
@@ -91,8 +90,6 @@ def callback():
     return redirect('/')
 
 
-
-
 @app.route("/profile")
 def profile():
     # make sure we have a access_token
@@ -101,14 +98,12 @@ def profile():
     return render_template('profile.html')
 
 
-
-
-    
 @app.route("/current_song")
 def current_song():
     # make sure we have a access_token
     if 'access_token' not in session:
         return redirect('/login')
     return render_template('current_song.html')
+
 
 app.run('0.0.0.0', port=PORT)

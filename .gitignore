@@ -9,3 +9,4 @@ replit.nix
 .cache
 .config
 flask_session/
+.env
