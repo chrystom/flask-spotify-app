@@ -2,7 +2,7 @@
 Flask-Session==0.5.0
 gunicorn==21.2.0
 Jinja2==3.1.2
-python-dotenv==1.0.0
+python-dotenv==0.21.1
 requests==2.31.0
 urllib3==1.26.16
 Werkzeug==2.3.6
