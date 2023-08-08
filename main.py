@@ -51,6 +51,7 @@ def index():
 
 @app.route("/login")
 def login():
+    print(CLIENT_ID, CLIENT_SECRET)
     # Auth Step 1: Authorization
     return redirect(f"https://accounts.spotify.com/authorize?{urlencode(auth_query_parameters)}")
 
