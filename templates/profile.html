@@ -1,5 +1,6 @@
-{% extends "layout.html" %} {% block title %}Profile{% endblock %} {% block main
-%}
+{% extends "layout.html" %}
+{% block title %}Profile{% endblock %}
+{% block main%}
 <img
 	id="userImg"
 	src="/static/images/default_pfp.png"
@@ -7,7 +8,9 @@
 	width="300px"
 />
 <h1 id="userTitle"></h1>
-{% endblock %} {% block api_req %}
+{% endblock %}
+
+{% block api_req %}
 <script>
 	async function get_data() {
 		// references
