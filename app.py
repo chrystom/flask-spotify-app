@@ -30,7 +30,7 @@ SPOTIFY_API_URL = f"{SPOTIFY_API_BASE_URL}/{API_VERSION}"
 render_hosting = True # change this when local hosting
 CLIENT_SIDE_URL = "http://localhost"
 PORT = 5000
-REDIRECT_URI = f"{CLIENT_SIDE_URL}:{PORT}/callback" if not render_hosting else "https://flask-spotify-app.onrender.com"
+REDIRECT_URI = f"{CLIENT_SIDE_URL}:{PORT}/callback" if not render_hosting else "https://flask-spotify-app.onrender.com/callback"
 SCOPE = "user-read-currently-playing"
 STATE = ""
 
