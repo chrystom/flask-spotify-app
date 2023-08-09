@@ -1,5 +1,6 @@
-{% extends "layout.html" %} {% block title %}Current Song{% endblock %} {% block
-main %}
+{% extends "layout.html" %}
+{% block title %}Current Song{% endblock %}
+{% block main %}
 <div class="cs-container">
 	<!-- by default, on load it has the no song image -->
 	<img
@@ -13,7 +14,9 @@ main %}
 	<!-- <h1 id="songTitle"> -->
 	<marquee scrollamount="15"><h1 id="songTitle"></h1></marquee>
 </div>
-{% endblock %} {% block api_req %}
+{% endblock %}
+
+{% block api_req %}
 <script>
 	// references
 	let songImg = document.querySelector("#songImg");
