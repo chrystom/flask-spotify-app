@@ -1,70 +1,67 @@
-{% extends "layout.html" %}
-{% block title %}Current Song{% endblock %}
-
-{% block main %}
+{% extends "layout.html" %} {% block title %}Current Song{% endblock %} {% block
+main %}
 <div class="cs-container">
-    <!-- by default, on load it has the no song image -->
-    <img id="songImg" src="/static/images/no_song.png" width=300px height=300px>
-    <br>
-    <br>
-    <!-- <h1 id="songTitle"> -->
-    <marquee scrollamount=15><h1 id="songTitle"></h1></marquee>
+	<!-- by default, on load it has the no song image -->
+	<img
+		id="songImg"
+		src="/static/images/no_song.png"
+		width="300px"
+		height="300px"
+	/>
+	<br />
+	<br />
+	<!-- <h1 id="songTitle"> -->
+	<marquee scrollamount="15"><h1 id="songTitle"></h1></marquee>
 </div>
-{% endblock %}
-
-{% block api_req %}
+{% endblock %} {% block api_req %}
 <script>
-    // references
-    let songImg = document.querySelector("#songImg");
-    let songTitle = document.querySelector("#songTitle");
-    
-    function update_data() {
-        
-        // Storing response
-        fetch('https://api.spotify.com/v1/me/player/currently-playing', {
-            method: 'GET',
-            headers: {
-                "Authorization": "Bearer {{session['access_token']}}",
-            }
-        })
-            .then(data => data.json())
-            .then(data => {
-                // make sure we have song
-                if (data['item'] === null) {
-                    songImg.src = "/static/images/no_song.png"
-                    songTitle.innerText = "No song detected."
-                } else {
-                    // get each artist and make a string
-                    let artist_str = "";
-                    for (let i = 0; i < data['item']['artists'].length; i++) {
-                        artist_str += `${data['item']['artists'][i]['name']}, `;
-                    }
-            
-                    // remove trailing ", "
-                    artist_str = artist_str.substring(0, artist_str.length - 2);
-        
-        
-                    // update dom
-                    songImg.src = data['item']['album']['images'][1]['url'];
-                    songTitle.innerText = `${data['item']['name']} - ${artist_str}`
-                }
-                
-        
-                
-                // console.log(data['item']['album']['images'][1]['url']);
-                // console.log(`${data['item']['name']} - ${artist_str}`);
-            })
-        
-        
-        
-    }
+	// references
+	let songImg = document.querySelector("#songImg");
+	let songTitle = document.querySelector("#songTitle");
 
-    // first time without delay
-    update_data();
+	function update_data() {
+		// Storing response
+		fetch("https://api.spotify.com/v1/me/player/currently-playing", {
+			method: "GET",
+			headers: {
+				Authorization: "Bearer {{session['access_token']}}",
+			},
+		})
+			.then((data) => {
+				console.log(data);
+				console.log("===================");
+				console.log(data.json());
+				return data.json();
+			})
+			.then((data) => {
+				// make sure we have song
+				if (data["item"] === null) {
+					songImg.src = "/static/images/no_song.png";
+					songTitle.innerText = "No song detected.";
+				} else {
+					// get each artist and make a string
+					let artist_str = "";
+					for (let i = 0; i < data["item"]["artists"].length; i++) {
+						artist_str += `${data["item"]["artists"][i]["name"]}, `;
+					}
 
-    // continuously update data
-    setInterval(update_data, 1000);
+					// remove trailing ", "
+					artist_str = artist_str.substring(0, artist_str.length - 2);
 
-    
+					// update dom
+					songImg.src = data["item"]["album"]["images"][1]["url"];
+					songTitle.innerText = `${data["item"]["name"]} - ${artist_str}`;
+				}
+
+				// console.log(data['item']['album']['images'][1]['url']);
+				// console.log(`${data['item']['name']} - ${artist_str}`);
+			});
+	}
+
+	// first time without delay
+	update_data();
+
+	// continuously update data
+	setInterval(update_data, 1000);
 </script>
 {% endblock %}
